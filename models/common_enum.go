@@ -1,5 +1,7 @@
 package models
 
+// TODO: Add description regarding the ETSI documentation
+
 type PatchOperation string
 
 const (

@@ -1,5 +1,8 @@
 package models
 
+// TODO: Add description regarding the ETSI documentation
+// TODO: Add validation functions that follow the ETSI documentation
+
 type ProblemDetails struct {
 	Type          Uri            `json:"type,omitempty"`
 	Title         string         `json:"title,omitempty"`

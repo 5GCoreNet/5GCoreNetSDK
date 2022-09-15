@@ -1,5 +1,7 @@
 package models
 
+// TODO: Add description regarding the ETSI documentation
+// TODO: Add validation functions that follow the ETSI documentation
 type Dnn string
 type DnnRm string
 type Gpsi string
