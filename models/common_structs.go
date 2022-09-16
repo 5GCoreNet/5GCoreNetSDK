@@ -38,9 +38,7 @@ type InvalidParam struct {
 	Reason string `json:"reason,omitempty"`
 }
 
-type LinkRM struct {
-	Href UriRm `json:"href,omitempty"`
-}
+type LinkRM Link
 
 type ChangeItem struct {
 	Op        ChangeType  `json:"op,omitempty"`

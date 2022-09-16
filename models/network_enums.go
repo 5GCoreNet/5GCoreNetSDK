@@ -36,6 +36,14 @@ const (
 	UpIntegrityNotNeeded UpIntegrity = "NOT_NEEDED"
 )
 
+type UpConfidentiality string
+
+const (
+	UpConfidentialityRequired  UpConfidentiality = "REQUIRED"
+	UpConfidentialityPreferred UpConfidentiality = "PREFERRED"
+	UpConfidentialityNotNeeded UpConfidentiality = "NOT_NEEDED"
+)
+
 type SscMode string
 
 const (

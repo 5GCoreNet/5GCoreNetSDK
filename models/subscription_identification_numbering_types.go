@@ -5,15 +5,20 @@ package models
 type Dnn string
 type DnnRm string
 type Gpsi string
-type GpsiRm string
+type GpsiRm Gpsi
 type GroupId string
-type GroupIdRm string
+type GroupIdRm GroupId
 type Pei string
-type PeiRm string
+type PeiRm Pei
 type Supi string
-type SupiRm string
+type SupiRm Supi
 type NfInstanceId string
-type Amfld string
+type AmfId string
+
+func (i AmfId) Validate() error {
+	return nil
+}
+
 type AmfRegionId string
 type AmfSetId string
 type RfspIndex int8

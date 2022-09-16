@@ -7,19 +7,31 @@ type ApplicationId string
 type ApplicationIdRm string
 type PduSessionId int8
 type Mcc string
-type MccRm string
+
+func (m Mcc) Validate() error {
+	return nil
+}
+
+type MccRm Mcc
 type Mnc string
-type MncRm string
+
+func (m Mnc) Validate() error {
+	return nil
+}
+
+type MncRm Mnc
 type Tac string
-type TacRm string
+type TacRm Tac
 type EutraCellId string
-type EutraCellIdRm string
+type EutraCellIdRm EutraCellId
 type NrCellId string
-type NrCellIdRm string
+type NrCellIdRm NrCellId
 type Dnai string
-type DnaiRm string
+type DnaiRm Dnai
 type FiveGMmCause uint64
-type AreaCodeRm string
+type AreaCode string
+type AreaCodeRm AreaCode
 type AmfName string
 type NThreeIwfId string
-type NgeNbld string
+type NgeNbId string
+type N3IwfId string
