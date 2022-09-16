@@ -83,8 +83,8 @@ type DateTime string
 
 // Validate validates the DateTime string.
 // As there is no validation for DateTime strings, this function always returns nil.
-func (d DateTime) Validate() error {
-	if d != DateTime(NullString) {
+func (d *DateTime) Validate() error {
+	if d != nil {
 		return nil
 	}
 	return fmt.Errorf("date-time mustn't be null, use date-timeRm instead")
@@ -199,6 +199,15 @@ func (u Uint16Rm) Validate() error {
 type Int32 int32
 type Int32Rm Int32
 type Int64 int64
+
+// Validate validates the Int64 number.
+func (i *Int64) Validate() error {
+	if i != nil {
+		return nil
+	}
+	return fmt.Errorf("int64 mustn't be null")
+}
+
 type Int64Rm Int64
 type Ipv4Address string
 type Ipv4AddressRm Ipv4Address

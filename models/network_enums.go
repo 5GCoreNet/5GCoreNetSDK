@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 // TODO: Add description regarding the ETSI documentation
 
 type AccessType string
@@ -10,6 +12,22 @@ const (
 )
 
 type RatType string
+
+// Validate validates the RatType string.
+func (t *RatType) Validate() error {
+	if t == nil {
+		return fmt.Errorf("ratType must not be nil")
+	}
+	switch *t {
+	case RatTypeNR:
+	case RatTypeEUTRA:
+	case RatTypeWLAN:
+	case RatTypeVIRTUAL:
+	default:
+		return fmt.Errorf("invalid rat type: %s", t)
+	}
+	return nil
+}
 
 const (
 	RatTypeNR      RatType = "NR"
