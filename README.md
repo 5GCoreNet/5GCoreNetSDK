@@ -1,7 +1,7 @@
 # 5GCoreNetSDK
 
 > At this moment, this SDK is in development. It is not ready for production use.
-> Refers to the [Roadmap](##Roadmap) section for more information on what has been done.
+> Refers to the [Roadmap](#roadmap) section for more information on what has been done.
 > 
 > See the [Contributing](#contributing) section if you would like to help
 > make it better.
