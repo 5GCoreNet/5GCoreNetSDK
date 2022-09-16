@@ -209,10 +209,28 @@ func (i *Int64) Validate() error {
 }
 
 type Int64Rm Int64
-type Ipv4Address string
-type Ipv4AddressRm Ipv4Address
-type Ipv6Address string
-type Ipv6AddressRm Ipv6Address
+type Ipv4Addr string
+
+// Validate validates the Ipv4Addr string.
+func (a *Ipv4Addr) Validate() error {
+	if a != nil {
+		return nil
+	}
+	return fmt.Errorf("ipv4 address mustn't be null")
+}
+
+type Ipv4AddrRm Ipv4Addr
+type Ipv6Addr string
+
+// Validate validates the Ipv6Addr string.
+func (a *Ipv6Addr) Validate() error {
+	if a != nil {
+		return nil
+	}
+	return fmt.Errorf("ipv6 address mustn't be null")
+}
+
+type Ipv6AddrRm Ipv6Addr
 type Ipv6Prefix string
 type Ipv6PrefixRm Ipv6Prefix
 type MacAddr48 string
