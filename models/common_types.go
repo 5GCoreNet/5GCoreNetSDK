@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"net/url"
 	"regexp"
 )
 
@@ -24,7 +25,10 @@ func (b Binary) Validate() error {
 }
 
 // BinaryRm is is defined in the same way as the "Binary" data type, but with the OpenAPI "nullable: true" property.
-type BinaryRm Binary
+type BinaryRm struct {
+	Binary Binary `json:"binary,omitempty"`
+	Null   bool   `json:"null,omitempty"`
+}
 
 // Validate validates the BinaryRm string.
 // As there is no validation for BinaryRm strings, this function always returns nil.
@@ -211,7 +215,23 @@ type Uint32 uint32
 type Uint32Rm Uint32
 type Uint64 uint64
 type Uint64Rm Uint64
+
+// Uri is a string providing an URI formatted according to IETF RFC 3986.
 type Uri string
+
+// Validate validates the Uri string
+// Uri musn't be null and must follow the IETF RFC 3986 format.
+func (u Uri) Validate() error {
+	if u != Uri(NullString) {
+		_, err := url.ParseRequestURI(string(u))
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	return fmt.Errorf("uri mustn't be null")
+}
+
 type UriRm Uri
 type VarUeId string
 type VarUeIdRm VarUeId

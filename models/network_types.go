@@ -7,18 +7,8 @@ type ApplicationId string
 type ApplicationIdRm string
 type PduSessionId int8
 type Mcc string
-
-func (m Mcc) Validate() error {
-	return nil
-}
-
 type MccRm Mcc
 type Mnc string
-
-func (m Mnc) Validate() error {
-	return nil
-}
-
 type MncRm Mnc
 type Tac string
 type TacRm Tac

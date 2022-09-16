@@ -1,10 +1,12 @@
 package models
 
+/*
 type SubscribedDefaultQos struct {
 	FiveQi        FiveQi              `json:"5Qi,omitempty"`
 	Arp           Arp                 `json:"arp,omitempty"`
 	PriorityLevel FiveQiPriorityLevel `json:"priorityLevel,omitempty"`
 }
+*/
 
 type Snssai struct {
 	Sst Uinteger `json:"sst,omitempty"`
@@ -14,16 +16,6 @@ type Snssai struct {
 type PlmnId struct {
 	Mcc Mcc `json:"mcc,omitempty"`
 	Mnc Mnc `json:"mnc,omitempty"`
-}
-
-func (i PlmnId) Validate() error {
-	if err := i.Mcc.Validate(); err != nil {
-		return err
-	}
-	if err := i.Mnc.Validate(); err != nil {
-		return err
-	}
-	return nil
 }
 
 type Tai struct {
