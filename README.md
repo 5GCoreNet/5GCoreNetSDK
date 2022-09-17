@@ -1,5 +1,11 @@
 # 5GCoreNetSDK
 
+[![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/5GCoreNet/5GCoreNetSDK.svg)](https://github.com/5GCoreNet/5GCoreNetSDK)
+[![GitHub license](https://badgen.net/github/license/5GCoreNet/5GCoreNetSDK)](https://github.com/5GCoreNet/5GCoreNetSDK/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/5GCoreNet/5GCoreNetSDK.svg?style=social&label=Star&maxAge=2592000)](https://github.com/5GCoreNet/5GCoreNetSDK)
+
+![Logo](https://raw.githubusercontent.com/5GCoreNet/5GCoreNetSDK-doc/main/5gcorenetsdk-logo.png)
+
 > At this moment, this SDK is in development. It is not ready for production use.
 > Refers to the [Roadmap](#roadmap) section for more information on what has been done.
 > 
