@@ -5,7 +5,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/5GCoreNet/5GCoreNetSDK.svg?style=social&label=Star&maxAge=2592000)](https://github.com/5GCoreNet/5GCoreNetSDK)
 
 <p align="center" width="100%">
-    <img width="33%" src="https://raw.githubusercontent.com/5GCoreNet/5GCoreNetSDK-doc/main/5gcorenetsdk-logo.png"> 
+    <img width="50%" src="https://raw.githubusercontent.com/5GCoreNet/5GCoreNetSDK-doc/main/5gcorenetsdk-logo.png"> 
 </p>
 
 > At this moment, this SDK is in development. It is not ready for production use.
