@@ -1,7 +1,10 @@
 package nausf
 
-import "context"
+import (
+	"context"
+	"github.com/5GCoreNet/5GCoreNetSDK/models"
+)
 
 type SorProtectionHandler interface {
-	Sor(ctx context.Context, supi string) error
+	Sor(ctx context.Context, supi models.Supi) error
 }

@@ -1,12 +1,16 @@
 package models
 
-/*
 type SubscribedDefaultQos struct {
-	FiveQi        FiveQi              `json:"5Qi,omitempty"`
-	Arp           Arp                 `json:"arp,omitempty"`
-	PriorityLevel FiveQiPriorityLevel `json:"priorityLevel,omitempty"`
+	FiveQi        *FiveQi              `json:"5qi,omitempty"`
+	Arp           *Arp                 `json:"arp,omitempty"`
+	PriorityLevel *FiveQiPriorityLevel `json:"priorityLevel,omitempty"`
 }
-*/
+
+// Validate validates this subscribed default qos.
+func (m *SubscribedDefaultQos) Validate() error {
+	// TODO: implement validation
+	return nil
+}
 
 type Snssai struct {
 	Sst Uinteger `json:"sst,omitempty"`
@@ -60,11 +64,11 @@ type NrLocation struct {
 }
 
 type N3gaLocation struct {
-	N3gpppTai  Tai         `json:"n3gppTai,omitempty"`
-	N3IwfId    N3IwfId     `json:"n3IwfId,omitempty"`
-	UeIpv4Addr Ipv4Address `json:"Ipv4Addr,omitempty"`
-	UeIpv6Addr Ipv6Address `json:"Ipv6Addr,omitempty"`
-	PortNumber Uinteger    `json:"portNumber,omitempty"`
+	N3gpppTai  Tai      `json:"n3gppTai,omitempty"`
+	N3IwfId    N3IwfId  `json:"n3IwfId,omitempty"`
+	UeIpv4Addr Ipv4Addr `json:"ueIpv4Addr,omitempty"`
+	UeIpv6Addr Ipv6Addr `json:"ueIpv6Addr,omitempty"`
+	PortNumber Uinteger `json:"portNumber,omitempty"`
 }
 
 type UpSecurity struct {
@@ -93,9 +97,9 @@ type RouteToLocation struct {
 }
 
 type RouteInformation struct {
-	Ipv4Addr   Ipv4Address `json:"ipv4Addr,omitempty"`
-	Ipv6Addr   Ipv6Address `json:"ipv6Addr,omitempty"`
-	PortNumber Uinteger    `json:"portNumber,omitempty"`
+	Ipv4Addr   Ipv4Addr `json:"ipv4Addr,omitempty"`
+	Ipv6Addr   Ipv6Addr `json:"ipv6Addr,omitempty"`
+	PortNumber Uinteger `json:"portNumber,omitempty"`
 }
 
 type Area struct {
