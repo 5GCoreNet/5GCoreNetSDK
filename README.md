@@ -50,11 +50,11 @@ Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
         - [ ] BaseModel compliant Data Types
         - [ ] JSON compliant Data Types
         - [ ] Documentation
-    - [ ] Data Types related to 5G Network - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.4
-        - [ ] Definition of the Data Types
-        - [ ] BaseModel compliant Data Types
-        - [ ] JSON compliant Data Types
-        - [ ] Documentation
+    - [x] Data Types related to 5G Network - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.4
+        - [x] Definition of the Data Types
+        - [x] BaseModel compliant Data Types
+        - [x] JSON compliant Data Types
+        - [x] Documentation
     - [x] Data Types related to 5G QoS - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.5
         - [x] Definition of the Data Types
         - [x] BaseModel compliant Data Types

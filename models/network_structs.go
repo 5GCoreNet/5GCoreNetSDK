@@ -68,7 +68,7 @@ func (m *Snssai) Validate() error {
 		return fmt.Errorf("sst must be in the range 0 to 255")
 	}
 	if m.Sd != nil {
-		if !regexp.MustCompile("^[A-Fa-f0-9]{6}$").MatchString(*m.Sd) {
+		if !regexp.MustCompile(`^[A-F\d]{6}$`).MatchString(*m.Sd) {
 			return fmt.Errorf("sd must match the pattern [0-9A-F]{6}$")
 		}
 	}
@@ -213,16 +213,13 @@ func (m *EutraLocation) Validate() error {
 		}
 	}
 	if m.GeographicalInformation != nil {
-		if !regexp.MustCompile(`^[0-9A-F]+$`).MatchString(*m.GeographicalInformation) {
+		if !regexp.MustCompile(`^[\dA-F]+$`).MatchString(*m.GeographicalInformation) {
 			return fmt.Errorf("geographicalInformation must match the pattern `^[0-9A-F]+$`")
-		}
-		if err := m.GeographicalInformation.Validate(); err != nil {
-			return fmt.Errorf("geographicalInformation %s", err.Error())
 		}
 	}
 	if m.GeodeticInformation != nil {
-		if err := m.GeodeticInformation.Validate(); err != nil {
-			return fmt.Errorf("geodeticInformation %s", err.Error())
+		if !regexp.MustCompile(`^[\dA-F]+$`).MatchString(*m.GeodeticInformation) {
+			return fmt.Errorf("geodeticInformation must match the pattern `^[0-9A-F]+$`")
 		}
 	}
 	if m.GlobalNgenbId != nil {
@@ -282,16 +279,13 @@ func (m *NrLocation) Validate() error {
 		}
 	}
 	if m.GeographicalInformation != nil {
-		if !regexp.MustCompile(`^[0-9A-F]+$`).MatchString(*m.GeographicalInformation) {
+		if !regexp.MustCompile(`^[\dA-F]+$`).MatchString(*m.GeographicalInformation) {
 			return fmt.Errorf("geographicalInformation must match the pattern `^[0-9A-F]+$`")
-		}
-		if err := m.GeographicalInformation.Validate(); err != nil {
-			return fmt.Errorf("geographicalInformation %s", err.Error())
 		}
 	}
 	if m.GeodeticInformation != nil {
-		if err := m.GeodeticInformation.Validate(); err != nil {
-			return fmt.Errorf("geodeticInformation %s", err.Error())
+		if !regexp.MustCompile(`^[\dA-F]+$`).MatchString(*m.GeodeticInformation) {
+			return fmt.Errorf("geodeticInformation must match the pattern `^[0-9A-F]+$`")
 		}
 	}
 	if m.GlobalGnbId != nil {
@@ -694,24 +688,148 @@ func (m *RefToBinaryDataRm) Validate() error {
 }
 
 type PresenceInfo struct {
-	PraId               string            `json:"praId,omitempty"`
-	PresenceState       PresenceState     `json:"presenceState,omitempty"`
-	TrackingAreaList    []Tai             `json:"trackingAreaList,omitempty"`
-	EcgiList            []Ecgi            `json:"ecgiList,omitempty"`
-	NcgiList            []Ncgi            `json:"ncgiList,omitempty"`
-	GlobalRanNodeIdList []GlobalRanNodeId `json:"globalRanNodeIdList,omitempty"`
+	// PraId represents an identifier to the specified area. This
+	// IE shall be present if the Area of Interest subscribed
+	// or reported is a Presence Reporting Area.
+	PraId *string `json:"praId,omitempty"`
+	// PresenceState indicates whether the UE is inside or outside of the
+	// area of interest (e.g. presence reporting area or the
+	// LADN area), or if the presence reporting area is
+	// inactive in the serving node.
+	PresenceState *PresenceState `json:"presenceState,omitempty"`
+	// TrackingAreaList represents the list of tracking areas that constitutes
+	// the area. This IE shall be present if the subscription
+	// or the event report is for tracking UE presence in the
+	// tracking areas. For non 3GPP access the TAI shall
+	// be the N3GPP TAI.
+	TrackingAreaList []*Tai `json:"trackingAreaList,omitempty"`
+	// EcgiList represents the list of EUTRAN cell Ids that
+	// constitutes the area. This IE shall be present if the
+	// Area of Interest subscribed is a list of EUTRAN cell
+	// Ids.
+	EcgiList []*Ecgi `json:"ecgiList,omitempty"`
+	// NcgiList the list of NR cell Ids that constitutes the
+	// area. This IE shall be present if the Area of Interest
+	// subscribed is a list of NR cell Ids.
+	NcgiList []*Ncgi `json:"ncgiList,omitempty"`
+	// GlobalRanNodeIdList represents the list of NG RAN node identifiers that
+	//constitutes the area. This IE shall be present if the
+	//Area of Interest subscribed is a list of NG RAN node identifiers.
+	GlobalRanNodeIdList []*GlobalRanNodeId `json:"globalRanNodeIdList,omitempty"`
+}
+
+// Validate validates this presence info.
+func (m *PresenceInfo) Validate() error {
+	if m == nil {
+		return nil
+	}
+	if m.PresenceState != nil {
+		if err := m.PresenceState.Validate(); err != nil {
+			return fmt.Errorf("presenceState %s", err.Error())
+		}
+	}
+	if m.TrackingAreaList != nil {
+		for i, v := range m.TrackingAreaList {
+			if err := v.Validate(); err != nil {
+				return fmt.Errorf("trackingAreaList[%d] %s", i, err.Error())
+			}
+		}
+	}
+	if m.EcgiList != nil {
+		for i, v := range m.EcgiList {
+			if err := v.Validate(); err != nil {
+				return fmt.Errorf("ecgiList[%d] %s", i, err.Error())
+			}
+		}
+	}
+	if m.NcgiList != nil {
+		for i, v := range m.NcgiList {
+			if err := v.Validate(); err != nil {
+				return fmt.Errorf("ncgiList[%d] %s", i, err.Error())
+			}
+		}
+	}
+	if m.GlobalRanNodeIdList != nil {
+		for i, v := range m.GlobalRanNodeIdList {
+			if err := v.Validate(); err != nil {
+				return fmt.Errorf("globalRanNodeIdList[%d] %s", i, err.Error())
+			}
+		}
+	}
+	return nil
 }
 
 type GlobalRanNodeId struct {
-	PlmnId  PlmnId  `json:"plmnId,omitempty"`
-	N3IwfId N3IwfId `json:"n3LwfId,omitempty"`
-	GNbId   GnbId   `json:"gNbId,omitempty"`
-	NgeNbId NgeNbId `json:"ngeNbId,omitempty"`
+	// PlmnId indicates the identity of the PLMN that the RAN node
+	// belongs to.
+	PlmnId *PlmnId `json:"plmnId"`
+	// This IE shall be included if the RAN node belongs to
+	// non 3GPP access (i.e a N3IWF).
+	// (NOTE).
+	N3IwfId *N3IwfId `json:"n3IwfId,omitempty"`
+	// This IE shall be included if the RAN Node Id
+	// represents a gNB. When present, this IE shall
+	// contain the identifier of the gNB. (NOTE).
+	GNbId *GnbId `json:"gNbId,omitempty"`
+	// This IE shall be included if the RAN Node Id
+	// represents a NG-eNB. When present, this IE shall
+	// contain the identifier of an NG-eNB. (NOTE).
+	NgeNbId *NgeNbId `json:"ngeNbId,omitempty"`
+	// NOTE : At most one of the three attributes n3IwfId, gNbIdm, ngeNbId shall be present.
+}
+
+// Validate validates this global ran node id.
+func (m *GlobalRanNodeId) Validate() error {
+	if err := m.PlmnId.Validate(); err != nil {
+		return fmt.Errorf("plmnId %s", err.Error())
+	}
+	if m.GNbId != nil && m.NgeNbId != nil || m.GNbId != nil && m.N3IwfId != nil || m.NgeNbId != nil && m.N3IwfId != nil {
+		return fmt.Errorf("at most one of the three attributes n3IwfId, gNbIdm, ngeNbId shall be present")
+	}
+	if m.N3IwfId != nil {
+		if err := m.N3IwfId.Validate(); err != nil {
+			return fmt.Errorf("n3IwfId %s", err.Error())
+		}
+	}
+	if m.GNbId != nil {
+		if err := m.GNbId.Validate(); err != nil {
+			return fmt.Errorf("gNbId %s", err.Error())
+		}
+	}
+	if m.NgeNbId != nil {
+		if err := m.NgeNbId.Validate(); err != nil {
+			return fmt.Errorf("ngeNbId %s", err.Error())
+		}
+	}
+	return nil
 }
 
 type GnbId struct {
-	BitLength Int64  `json:"bitLength,omitempty"`
-	GNbValue  string `json:"gNbValue,omitempty"`
+	// BitLength is an unsigned integer representing the bit length of the gNB ID as
+	// defined in subclause 9.3.1.6 of 3GPP TS 38.413, within the range 22 to 32
+	BitLength *Int64 `json:"bitLength"`
+	// GNbValue represents the identifier of the gNB.
+	// The value of the gNB ID shall be encoded in hexadecimal
+	// representation. Each character in the string shall take a value of "0" to "9"
+	// or "A" to "F" and shall represent 4 bits. The padding 0 shall be added to make
+	// multiple nibbles, the most significant character representing the padding 0 if
+	// required together with the 4 most significant bits of the gNB ID shall appear
+	// first in the string, and the character representing the 4 least significant
+	// bit of the gNB ID shall appear last in the string.
+	// Examples: A 30 bit value "382A3F47" indicates a gNB ID with value 0x382A3F47 A 22 bit value "2A3F47"
+	// indicates a gNB ID with value 0x2A3F47
+	GNbValue *string `json:"gNbValue"`
+}
+
+// Validate validates this gnb id.
+func (m *GnbId) Validate() error {
+	if err := m.BitLength.Validate(); err != nil {
+		return fmt.Errorf("bitLength %s", err.Error())
+	}
+	if !regexp.MustCompile(`^[A-Fa-f\d]{6,8}$`).MatchString(*m.GNbValue) {
+		return fmt.Errorf("gNbValue must match the pattern ^[A-Fa-f0-9]{6,8}$")
+	}
+	return nil
 }
 
 // PresenceInfoRm is defined in the same way as the "PresenceInfo" data type, but with the OpenAPI "nullable: true" property.

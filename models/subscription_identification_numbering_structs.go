@@ -8,6 +8,11 @@ type Guami struct {
 	AmfId  *AmfId  `json:"amfId,omitempty"`
 }
 
+func (g *Guami) Validate() error {
+	// TODO: Add validation functions that follow the ETSI documentation
+	return nil
+}
+
 type NetworkId struct {
 	Mcc Mcc `json:"mcc,omitempty"`
 	Mnc Mnc `json:"mnc,omitempty"`
