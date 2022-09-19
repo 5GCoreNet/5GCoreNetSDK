@@ -237,6 +237,15 @@ type MacAddr48 string
 type MacAddr48Rm MacAddr48
 type SupportedFeatures string
 type Uinteger uint64
+
+// Validate validates the Uinteger number.
+func (u *Uinteger) Validate() error {
+	if u != nil {
+		return nil
+	}
+	return fmt.Errorf("uinteger mustn't be null")
+}
+
 type UintegerRm Uinteger
 type Uint32 uint32
 type Uint32Rm Uint32
