@@ -16,7 +16,9 @@
 
 5GCoreNetSDK is an open source project that provides a set of APIs to access or provide services in 5G Core Network. The APIs are based on the 3GPP specifications and are implemented in Golang.
 
-At the moment, the APIs are implemented for the release 15 of the 3GPP specifications (3GPP TS 29.571 version 15.3.0 Release 15). 
+Under the hood, the SDK exposes through a RESTful API the Network Function you've built, according to the standard. The RESTful API is implemented using [Gin](https://github.com/gin-gonic/gin) framework.
+
+At the moment, the APIs are implemented for the release 15 of the 3GPP specifications (3GPP TS 29.571 version 15.3.0 Release 15).
 
 ## Getting Started
 
