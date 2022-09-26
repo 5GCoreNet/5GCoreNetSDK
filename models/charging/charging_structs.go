@@ -1,9 +1,14 @@
-package models
+package charging
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/common"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/network"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/qos"
+)
 
 type SecondaryRatUsageReport struct {
-	SecondaryRatType  *RatType              `json:"secondaryRatType"`  // Secondary RAT type.
+	SecondaryRatType  *network.RatType      `json:"secondaryRatType"`  // Secondary RAT type.
 	QosFlowsUsageData []*QosFlowUsageReport `json:"qosFlowsUsageData"` // QoS flows usage data.
 }
 
@@ -24,11 +29,11 @@ func (m *SecondaryRatUsageReport) Validate() error {
 }
 
 type QosFlowUsageReport struct {
-	Qfi            *Qfi      `json:"qfi"`            // QoS Flow Indicator.
-	StartTimestamp *DateTime `json:"startTimeStamp"` // UTC time indicating the start time of the collection period of the included usage data for DL and UL.
-	EndTimestamp   *DateTime `json:"endTimeStamp"`   // UTC time indicating the end time of the collection period of the included usage data for DL and UL.
-	DownlinkVolume *Int64    `json:"downlinkVolume"` // Data usage for DL, encoding a number of octets.
-	UplinkVolume   *Int64    `json:"uplinkVolume"`   // Data usage for UL, encoding a number of octets.
+	Qfi            *qos.Qfi         `json:"qfi"`            // QoS Flow Indicator.
+	StartTimestamp *common.DateTime `json:"startTimeStamp"` // UTC time indicating the start time of the collection period of the included usage data for DL and UL.
+	EndTimestamp   *common.DateTime `json:"endTimeStamp"`   // UTC time indicating the end time of the collection period of the included usage data for DL and UL.
+	DownlinkVolume *common.Int64    `json:"downlinkVolume"` // Data usage for DL, encoding a number of octets.
+	UplinkVolume   *common.Int64    `json:"uplinkVolume"`   // Data usage for UL, encoding a number of octets.
 }
 
 // Validate validates this qos flow usage report.

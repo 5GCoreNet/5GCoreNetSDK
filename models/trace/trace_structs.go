@@ -1,7 +1,8 @@
-package models
+package trace
 
 import (
 	"fmt"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/common"
 	"regexp"
 )
 
@@ -25,10 +26,10 @@ type TraceData struct {
 	EventList string `json:"eventList"`
 	// CollectionEntityIpv4Addr is the IPv4 Address of the Trace Collection Entity (see 3GPP TS 32.422).
 	//At least one of the collectionEntityIpv4Addr or collectionEntityIpv6Addr attributes shall be present.
-	CollectionEntityIpv4Addr *Ipv4Addr `json:"collectionEntityIpv4Addr,omitempty"`
+	CollectionEntityIpv4Addr *common.Ipv4Addr `json:"collectionEntityIpv4Addr,omitempty"`
 	// CollectionEntityIpv6Addr is the IPv6 Address of the Trace Collection Entity (see 3GPP TS 32.422).
 	//At least one of the collectionEntityIpv4Addr or collectionEntityIpv6Addr attributes shall be present.
-	CollectionEntityIpv6Addr *Ipv6Addr `json:"collectionEntityIpv6Addr,omitempty"`
+	CollectionEntityIpv6Addr *common.Ipv6Addr `json:"collectionEntityIpv6Addr,omitempty"`
 	// InterfaceList is the list of interfaces (see 3GPP TS 32.422). It shall be encoded as an octet string in hexadecimal representation. Each character in the string shall
 	//take a value of "0" to "9" or "A" to "F" and shall represent 4 bits. The most significant character representing the 4 most significant bits shall appear first in the string, and the character representing the
 	//4 least significant bit shall appear last in the string. Octets shall be coded according to 3GPP TS 32.422.

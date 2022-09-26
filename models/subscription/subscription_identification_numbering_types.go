@@ -1,4 +1,4 @@
-package models
+package subscription
 
 import (
 	"fmt"

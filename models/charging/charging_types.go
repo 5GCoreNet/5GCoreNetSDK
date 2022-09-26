@@ -1,4 +1,4 @@
-package models
+package charging
 
 import "fmt"
 

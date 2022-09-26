@@ -1,14 +1,17 @@
-package models
+package network
 
 import (
 	"fmt"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/common"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/qos"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/subscription"
 	"regexp"
 )
 
 type SubscribedDefaultQos struct {
-	FiveQi        *FiveQi              `json:"5qi"`                     // Default 5G QoS identifier.
-	Arp           *Arp                 `json:"arp"`                     // Default Allocation and Retention Priority see 3GPP TS 23.501 subclause 5.7.2.7.
-	PriorityLevel *FiveQiPriorityLevel `json:"priorityLevel,omitempty"` // Defines the 5QI Priority Level. When present, it contains the 5QI Priority Level value that overrides the standardized or pre-configured value as described in 3GPP TS 23.501.
+	FiveQi        *qos.FiveQi              `json:"5qi"`                     // Default 5G QoS identifier.
+	Arp           *qos.Arp                 `json:"arp"`                     // Default Allocation and Retention Priority see 3GPP TS 23.501 subclause 5.7.2.7.
+	PriorityLevel *qos.FiveQiPriorityLevel `json:"priorityLevel,omitempty"` // Defines the 5QI Priority Level. When present, it contains the 5QI Priority Level value that overrides the standardized or pre-configured value as described in 3GPP TS 23.501.
 }
 
 // Validate validates this subscribed default qos.
@@ -43,7 +46,7 @@ type Snssai struct {
 	// 3GPP TS 23.003.
 	// Standardized values are defined in
 	// subclause 5.15.2.2 of 3GPP TS 23.501
-	Sst *Uinteger `json:"sst"`
+	Sst *common.Uinteger `json:"sst"`
 	// Sd is a 3-octet string, representing the Slice Differentiator, in
 	// hexadecimal representation. Each character in the
 	// string shall take a value of "0" to "9" or "A" to "F" and
@@ -174,8 +177,8 @@ type EutraLocation struct {
 	// Any other value than "0" indicates that the location
 	// information is the last known one.
 	// See 3GPP TS 29.002 [21] subclause 17.7.8.
-	AgeOfLocationInformation *Int64    `json:"ageOfLocationInformation,omitempty"`
-	UeLocationTimestamp      *DateTime `json:"ueLocationTimestamp,omitempty"` // The value represents the UTC time when the UeLocation information was acquired.
+	AgeOfLocationInformation *common.Int64    `json:"ageOfLocationInformation,omitempty"`
+	UeLocationTimestamp      *common.DateTime `json:"ueLocationTimestamp,omitempty"` // The value represents the UTC time when the UeLocation information was acquired.
 	// GeographicalInformation refers to geographical Information.
 	// See 3GPP TS 23.032 subclause 7.3.2. Only the
 	// description of an ellipsoid point with uncertainty circle
@@ -240,8 +243,8 @@ type NrLocation struct {
 	// Any other value than "0" indicates that the location
 	// information is the last known one.
 	// See 3GPP TS 29.002 [21] subclause 17.7.8.
-	AgeOfLocationInformation *Int64    `json:"ageOfLocationInformation,omitempty"`
-	UeLocationTimestamp      *DateTime `json:"ueLocationTimestamp,omitempty"` // The value represents the UTC time when the UeLocation information was acquired.
+	AgeOfLocationInformation *common.Int64    `json:"ageOfLocationInformation,omitempty"`
+	UeLocationTimestamp      *common.DateTime `json:"ueLocationTimestamp,omitempty"` // The value represents the UTC time when the UeLocation information was acquired.
 	// GeographicalInformation refers to geographical Information.
 	// See 3GPP TS 23.032 subclause 7.3.2. Only the
 	// description of an ellipsoid point with uncertainty circle
@@ -308,13 +311,13 @@ type N3gaLocation struct {
 	N3IwfId *N3IwfId `json:"n3IwfId,omitempty"`
 	// UeIpv4Addr is the UE local IPv4 address (used to reach the N3IWF). The
 	// ueIPv4Addr or the ueIPv6Addr shall be present.
-	UeIpv4Addr *Ipv4Addr `json:"ueIpv4Addr,omitempty"`
+	UeIpv4Addr *common.Ipv4Addr `json:"ueIpv4Addr,omitempty"`
 	// UeIpv6Addr is the UE local IPv6 address (used to reach the N3IWF). The
 	// ueIPv4Addr or the ueIPv6Addr shall be present.
-	UeIpv6Addr *Ipv6Addr `json:"ueIpv6Addr,omitempty"`
+	UeIpv6Addr *common.Ipv6Addr `json:"ueIpv6Addr,omitempty"`
 	// PortNumber is the UDP or TCP source port number. It shall be present if NAT is
 	// detected.
-	PortNumber *Uinteger `json:"portNumber,omitempty"`
+	PortNumber *common.Uinteger `json:"portNumber,omitempty"`
 }
 
 // Validate validates this n3ga location.
@@ -380,11 +383,11 @@ type NgApCause struct {
 	//		2 – nas
 	//		3 – protocol
 	//		4 – misc
-	Group *Uinteger `json:"group"`
+	Group *common.Uinteger `json:"group"`
 	// Value shall carry the NG AP cause value in specific
 	// cause group identified by the "group" attribute, as specified in subclause
 	// 9.4.5 of 3GPP TS 38.413.
-	Value *Uinteger `json:"value"`
+	Value *common.Uinteger `json:"value"`
 }
 
 // Validate validates this ng ap cause.
@@ -410,7 +413,7 @@ type BackupAmfInfo struct {
 	// supported by the AMF.
 	BackupAmf *AmfName `json:"backupAmf"`
 	// If present, this IE shall contain the GUAMI(s).
-	GuamiList []*Guami `json:"guamiList,omitempty"`
+	GuamiList []*subscription.Guami `json:"guamiList,omitempty"`
 }
 
 // Validate validates this backup amf info.
@@ -469,9 +472,9 @@ func (m *RouteToLocation) Validate() error {
 }
 
 type RouteInformation struct {
-	Ipv4Addr   *Ipv4Addr `json:"ipv4Addr,omitempty"` // Ipv4address of the tunnel end point in the data network.
-	Ipv6Addr   *Ipv6Addr `json:"ipv6Addr,omitempty"` // Ipv6 address of the tunnel end point in the data network.
-	PortNumber *Uinteger `json:"portNumber"`         // UDP port number of the tunnel end point in the data network.
+	Ipv4Addr   *common.Ipv4Addr `json:"ipv4Addr,omitempty"` // Ipv4address of the tunnel end point in the data network.
+	Ipv6Addr   *common.Ipv6Addr `json:"ipv6Addr,omitempty"` // Ipv6 address of the tunnel end point in the data network.
+	PortNumber *common.Uinteger `json:"portNumber"`         // UDP port number of the tunnel end point in the data network.
 	// NOTE: At least one of the "ipv4Addr" attribute and the "ipv6Addr" attribute shall be included in the
 	// "RouteInformation" data type
 }
@@ -537,7 +540,7 @@ type ServiceAreaRestriction struct {
 	// MaxNumOfTAs is the Maximum number of allowed tracking areas.
 	// This attribute shall be absent when attribute "restrictionType" takes the
 	// value "NOT_ALLOWED_AREAS".
-	MaxNumOfTAs *Uinteger `json:"maxNumOfTAs,omitempty"`
+	MaxNumOfTAs *common.Uinteger `json:"maxNumOfTAs,omitempty"`
 	// NOTE: The empty Area array is used when service is allowed/restricted nowhere.
 }
 
@@ -807,7 +810,7 @@ func (m *GlobalRanNodeId) Validate() error {
 type GnbId struct {
 	// BitLength is an unsigned integer representing the bit length of the gNB ID as
 	// defined in subclause 9.3.1.6 of 3GPP TS 38.413, within the range 22 to 32
-	BitLength *Int64 `json:"bitLength"`
+	BitLength *common.Int64 `json:"bitLength"`
 	// GNbValue represents the identifier of the gNB.
 	// The value of the gNB ID shall be encoded in hexadecimal
 	// representation. Each character in the string shall take a value of "0" to "9"

@@ -1,4 +1,4 @@
-package models
+package base
 
 // BaseModel is the base model for all data models.
 type BaseModel interface {

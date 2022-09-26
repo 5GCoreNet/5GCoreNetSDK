@@ -1,10 +1,13 @@
-package models
+package subscription
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/network"
+)
 
 type Guami struct {
-	PlmnId *PlmnId `json:"plmnId"` // PLMN Identity.
-	AmfId  *AmfId  `json:"amfId"`  // AMF Identity.
+	PlmnId *network.PlmnId `json:"plmnId"` // PLMN Identity.
+	AmfId  *AmfId          `json:"amfId"`  // AMF Identity.
 }
 
 // Validate validates the Guami.
@@ -22,8 +25,8 @@ func (g *Guami) Validate() error {
 }
 
 type NetworkId struct {
-	Mcc *Mcc `json:"mcc,omitempty"` // Mobile Country Code.
-	Mnc *Mnc `json:"mnc,omitempty"` // Mobile Network Code.
+	Mcc *network.Mcc `json:"mcc,omitempty"` // Mobile Country Code.
+	Mnc *network.Mnc `json:"mnc,omitempty"` // Mobile Network Code.
 	// NOTE: At least one MNC or MCC shall be included.
 }
 

@@ -1,4 +1,4 @@
-package models
+package barring
 
 type OdbData struct {
 	RoamingOdb *RoamingOdb `json:"roamingOdb,omitempty"` // Barring of Roaming (see 3GPP TS 23.015).

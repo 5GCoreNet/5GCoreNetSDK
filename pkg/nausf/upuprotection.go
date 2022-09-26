@@ -2,7 +2,8 @@ package nausf
 
 import (
 	"context"
-	"github.com/5GCoreNet/5GCoreNetSDK/models"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/common"
+	"github.com/5GCoreNet/5GCoreNetSDK/models/subscription"
 )
 
 type UpuSecurityInfo struct {
@@ -20,5 +21,5 @@ type UpuInfo struct {
 }
 
 type UpuProtectionHandler interface {
-	GenerateUPUData(ctx context.Context, supi models.Supi, info UpuInfo) (UpuSecurityInfo, models.ProblemDetails)
+	GenerateUPUData(ctx context.Context, supi subscription.Supi, info UpuInfo) (UpuSecurityInfo, common.ProblemDetails)
 }
