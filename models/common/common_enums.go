@@ -5,8 +5,11 @@ import "fmt"
 type PatchOperation string
 
 // Validate validates the PatchOperation string.
-func (p PatchOperation) Validate() error {
-	switch p {
+func (p *PatchOperation) Validate() error {
+	if p == nil {
+		return fmt.Errorf("patchOperation must not be nil")
+	}
+	switch *p {
 	case "add":
 	case "remove":
 	case "replace":
@@ -31,8 +34,11 @@ const (
 type UriScheme string
 
 // Validate validates the UriScheme string.
-func (u UriScheme) Validate() error {
-	switch u {
+func (u *UriScheme) Validate() error {
+	if u == nil {
+		return fmt.Errorf("uriScheme must not be nil")
+	}
+	switch *u {
 	case "http":
 	case "https":
 	default:
@@ -49,11 +55,15 @@ const (
 type ChangeType string
 
 // Validate validates the ChangeType string.
-func (c ChangeType) Validate() error {
-	switch c {
-	case "ADDED":
-	case "REMOVED":
-	case "MODIFIED":
+func (c *ChangeType) Validate() error {
+	if c == nil {
+		return fmt.Errorf("changeType must not be nil")
+	}
+	switch *c {
+	case "ADD":
+	case "MOVE":
+	case "REMOVE":
+	case "REPLACE":
 	default:
 		return fmt.Errorf("invalid change type: %s", c)
 	}

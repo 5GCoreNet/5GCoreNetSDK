@@ -5,9 +5,6 @@ import (
 	"regexp"
 )
 
-// TODO: Add description regarding the ETSI documentation
-// TODO: Add validation functions that follow the ETSI documentation
-
 // Dnn reprsents  a Data Network as defined in subclause 9A of
 // 3GPP TS 23.003. It shall be formatted as string in which the
 // labels are separated by dots (e.g. "Label1.Label2.Label3").

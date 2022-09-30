@@ -41,42 +41,7 @@ Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Roadmap
 
-- [ ] Implement all the common Data Types from the [3GPP specifications - 3GPP TS 29.571 version 15.3.0 Release 15](https://www.etsi.org/deliver/etsi_ts/129500_129599/129571/15.03.00_60/ts_129571v150300p.pdf)
-    - [ ] Data Types for generic usage - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.2
-        - [ ] Definition of the Data Types
-        - [ ] BaseModel compliant Data Types
-        - [ ] JSON compliant Data Types
-        - [ ] Documentation
-    - [x] Data Types related to Subscription, Identification and Numbering - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.3
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
-    - [x] Data Types related to 5G Network - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.4
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
-    - [x] Data Types related to 5G QoS - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.5
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
-    - [x] Data Types related to 5G Trace - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.6
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
-    - [x] Data Types related to 5G Operator Determined Barring - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.7
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
-    - [x] Data Types related to Charging - 3GPP TS 29.571 version 15.3.0 Release 15 - Section 5.8
-        - [x] Definition of the Data Types
-        - [x] BaseModel compliant Data Types
-        - [x] JSON compliant Data Types
-        - [x] Documentation
+- [x] Implement all the common Data Types from the [3GPP specifications - 3GPP TS 29.571 version 15.3.0 Release 15](https://www.etsi.org/deliver/etsi_ts/129500_129599/129571/15.03.00_60/ts_129571v150300p.pdf)
 - [ ] Provides NAF API
 - [ ] Provides NAMF API
 - [ ] Provides NAUSF API
