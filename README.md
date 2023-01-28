@@ -18,7 +18,7 @@
 
 Under the hood, the SDK exposes through a RESTful API the Network Function you've built, according to the standard. The RESTful API is implemented using [Gin](https://github.com/gin-gonic/gin) framework.
 
-At the moment, the APIs are implemented for the release 15 of the 3GPP specifications (3GPP TS 29.571 version 15.3.0 Release 15).
+At the moment, the APIs are implemented for the release 18 of the 3GPP specifications.
 
 ## Getting Started
 
@@ -41,13 +41,4 @@ Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Roadmap
 
-- [x] Implement all the common Data Types from the [3GPP specifications - 3GPP TS 29.571 version 15.3.0 Release 15](https://www.etsi.org/deliver/etsi_ts/129500_129599/129571/15.03.00_60/ts_129571v150300p.pdf)
-- [ ] Provides NAF API
-- [ ] Provides NAMF API
-- [ ] Provides NAUSF API
-- [ ] Provides NNEF API
-- [ ] Provides NNRF API
-- [ ] Provides NNSSF API
-- [ ] Provides NPCF API
-- [ ] Provides NSMF API
-- [ ] Provides NUDM API
+TBD
