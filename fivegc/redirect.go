@@ -12,9 +12,9 @@ type RedirectResponse struct {
 
 	Cause string `json:"cause,omitempty"`
 
-	// String providing an URI formatted according to RFC 3986.
+	// String providing a URI formatted according to RFC 3986.
 	TargetScp string `json:"targetScp,omitempty"`
 
-	// String providing an URI formatted according to RFC 3986.
+	// String providing a URI formatted according to RFC 3986.
 	TargetSepp string `json:"targetSepp,omitempty"`
 }

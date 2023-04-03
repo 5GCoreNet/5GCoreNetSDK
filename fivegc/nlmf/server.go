@@ -1,15 +1,13 @@
 package nlmf
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 )
 
 // Server represents a NLMF server.
 type Server struct {
-	ip        string
-	port      string
+	address   string // IP:PORT
 	apiRoot   string
 	location  Location
 	broadcast Broadcast
@@ -19,22 +17,22 @@ type Server struct {
 }
 
 // NewServer creates a new Server NLMF server instance.
-func NewServer(ip string, port string, apiRoot string, logger *log.Logger) *Server {
+// The address is the IP:PORT of the NLMF server.
+func NewServer(address string, apiRoot string, logger *log.Logger) *Server {
 	return &Server{
-		ip:      ip,
-		port:    port,
+		address: address,
 		apiRoot: apiRoot,
 		logger:  logger,
 		stop:    make(chan bool),
 	}
 }
 
-// AttachLocation attaches a Location client to the NLMF Server.
+// AttachLocation attaches a Location handler to the NLMF Server.
 func (n *Server) AttachLocation(l Location) {
 	n.location = l
 }
 
-// AttachBroadcast attaches a Broadcast client to the NLMF Server.
+// AttachBroadcast attaches a Broadcast handler to the NLMF Server.
 func (n *Server) AttachBroadcast(b Broadcast) {
 	n.broadcast = b
 }
@@ -51,7 +49,7 @@ func (n *Server) Start() {
 	if n.broadcast != nil {
 		attachBroadcastHandler(root, n.broadcast)
 	}
-	go n.router.Run(fmt.Sprintf("%s:%s", n.ip, n.port))
+	go n.router.Run(n.address)
 	<-n.stop
 	return
 }

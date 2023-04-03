@@ -4,122 +4,156 @@ import (
 	"context"
 	"github.com/5GCoreNet/5GCoreNetSDK/fivegc"
 	"github.com/5GCoreNet/5GCoreNetSDK/internal/header"
-	openapinlmflocationclient "github.com/5GCoreNet/client-openapi/Nlmf_Location"
-	openapinlmflocationserver "github.com/5GCoreNet/server-openapi/Nlmf_Location"
+	openapicommon "github.com/5GCoreNet/openapi/openapi_CommonData"
+	nlmfocation "github.com/5GCoreNet/openapi/openapi_Nlmf_Location"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
+const (
+	locationRouterGroup             = "/nlmf-loc/v1"
+	cancelLocationEndpoint          = "/cancel-location"
+	determineLocationEndpoint       = "/determine-location"
+	locationContextTransferEndpoint = "/location-context-transfer"
+)
+
 type Location interface {
-	// Error returns a problem details, it is used to handle errors when unmarshalling the request.
-	Error(ctx context.Context, err error) openapinlmflocationserver.ProblemDetails
+	fivegc.CommonInterface
 	// CancelLocation cancels a location request.
-	CancelLocation(context.Context, openapinlmflocationserver.CancelLocData) (openapinlmflocationserver.ProblemDetails, fivegc.RedirectResponse, fivegc.StatusCode)
+	CancelLocation(context.Context, nlmfocation.CancelLocData) (openapicommon.ProblemDetails, fivegc.RedirectResponse, CancelLocationStatusCode)
 	// DetermineLocation determines the location of a UE.
-	DetermineLocation(context.Context, openapinlmflocationserver.InputData) (openapinlmflocationserver.LocationData, openapinlmflocationserver.ProblemDetails, fivegc.RedirectResponse, fivegc.StatusCode)
+	DetermineLocation(context.Context, nlmfocation.InputData) (nlmfocation.LocationData, openapicommon.ProblemDetails, fivegc.RedirectResponse, DetermineLocationStatusCode)
 	// LocationContextTransfer transfers the location context of a UE.
-	LocationContextTransfer(context.Context, openapinlmflocationserver.LocContextData) (openapinlmflocationserver.ProblemDetails, fivegc.RedirectResponse, fivegc.StatusCode)
+	LocationContextTransfer(context.Context, nlmfocation.LocContextData) (openapicommon.ProblemDetails, fivegc.RedirectResponse, LocationContextTransferStatusCode)
 }
 
+type CancelLocationStatusCode fivegc.StatusCode
+
+const (
+	// CancelLocationStatusNoContent is the status code for the response when the location request is successfully cancelled.
+	CancelLocationStatusNoContent         CancelLocationStatusCode = CancelLocationStatusCode(fivegc.StatusNoContent)
+	CancelLocationStatusTemporaryRedirect CancelLocationStatusCode = CancelLocationStatusCode(fivegc.StatusTemporaryRedirect)
+	CancelLocationStatusPermanentRedirect CancelLocationStatusCode = CancelLocationStatusCode(fivegc.StatusPermanentRedirect)
+)
+
+type DetermineLocationStatusCode fivegc.StatusCode
+
+const (
+	// DetermineLocationStatusOK is the status code for a successful response.
+	DetermineLocationStatusOK                DetermineLocationStatusCode = DetermineLocationStatusCode(fivegc.StatusOK)
+	DetermineLocationStatusNoContent         DetermineLocationStatusCode = DetermineLocationStatusCode(fivegc.StatusNoContent)
+	DetermineLocationStatusTemporaryRedirect DetermineLocationStatusCode = DetermineLocationStatusCode(fivegc.StatusTemporaryRedirect)
+	DetermineLocationStatusPermanentRedirect DetermineLocationStatusCode = DetermineLocationStatusCode(fivegc.StatusPermanentRedirect)
+)
+
+type LocationContextTransferStatusCode fivegc.StatusCode
+
+const (
+	// LocationContextTransferStatusNoContent is the status code for the response when the location context transfer is successful.
+	LocationContextTransferStatusNoContent         LocationContextTransferStatusCode = LocationContextTransferStatusCode(fivegc.StatusNoContent)
+	LocationContextTransferStatusTemporaryRedirect LocationContextTransferStatusCode = LocationContextTransferStatusCode(fivegc.StatusTemporaryRedirect)
+	LocationContextTransferStatusPermanentRedirect LocationContextTransferStatusCode = LocationContextTransferStatusCode(fivegc.StatusPermanentRedirect)
+)
+
 func attachLocationHandler(router *gin.RouterGroup, l Location) {
-	group := router.Group("/nlmf-loc/v1")
+	group := router.Group(locationRouterGroup)
 	{
-		group.POST("/cancel-location", func(c *gin.Context) {
-			var req openapinlmflocationserver.CancelLocData
+		group.POST(cancelLocationEndpoint, func(c *gin.Context) {
+			var req nlmfocation.CancelLocData
 			if err := c.ShouldBindJSON(&req); err != nil {
 				problemDetails := l.Error(c, err)
-				c.JSON(int(problemDetails.Status), problemDetails)
+				c.JSON(int(*problemDetails.Status), problemDetails)
 				return
 			}
 			problemDetails, redirectResponse, status := l.CancelLocation(c, req)
 			switch status {
-			case fivegc.StatusNoContent:
-				c.JSON(status.ToInt(), nil)
-			case fivegc.StatusTemporaryRedirect:
+			case CancelLocationStatusNoContent:
+				c.JSON(int(status), nil)
+			case CancelLocationStatusTemporaryRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
-			case fivegc.StatusPermanentRedirect:
+				c.JSON(int(status), redirectResponse)
+			case CancelLocationStatusPermanentRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
+				c.JSON(int(status), redirectResponse)
 			default:
-				c.JSON(status.ToInt(), problemDetails)
+				c.JSON(int(status), problemDetails)
 			}
 			return
 		})
-		group.POST("/determine-location", func(c *gin.Context) {
-			var req openapinlmflocationserver.InputData
+		group.POST(determineLocationEndpoint, func(c *gin.Context) {
+			var req nlmfocation.InputData
 			if err := c.ShouldBindJSON(&req); err != nil {
 				problemDetails := l.Error(c, err)
-				c.JSON(int(problemDetails.Status), problemDetails)
+				c.JSON(int(*problemDetails.Status), problemDetails)
 				return
 			}
 			res, problemDetails, redirectResponse, status := l.DetermineLocation(c, req)
 			switch status {
-			case fivegc.StatusOK:
-				c.JSON(status.ToInt(), res)
-			case fivegc.StatusNoContent:
-				c.JSON(status.ToInt(), nil)
-			case fivegc.StatusTemporaryRedirect:
+			case DetermineLocationStatusOK:
+				c.JSON(int(status), res)
+			case DetermineLocationStatusNoContent:
+				c.JSON(int(status), nil)
+			case DetermineLocationStatusTemporaryRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
-			case fivegc.StatusPermanentRedirect:
+				c.JSON(int(status), redirectResponse)
+			case DetermineLocationStatusPermanentRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
+				c.JSON(int(status), redirectResponse)
 			default:
-				c.JSON(status.ToInt(), problemDetails)
+				c.JSON(int(status), problemDetails)
 			}
 			return
 		})
-		group.POST("/location-context-transfer", func(c *gin.Context) {
-			var req openapinlmflocationserver.LocContextData
+		group.POST(locationContextTransferEndpoint, func(c *gin.Context) {
+			var req nlmfocation.LocContextData
 			if err := c.ShouldBindJSON(&req); err != nil {
 				problemDetails := l.Error(c, err)
-				c.JSON(int(problemDetails.Status), problemDetails)
+				c.JSON(int(*problemDetails.Status), problemDetails)
 				return
 			}
 			problemDetails, redirectResponse, status := l.LocationContextTransfer(c, req)
 			switch status {
-			case fivegc.StatusNoContent:
-				c.JSON(status.ToInt(), nil)
-			case fivegc.StatusTemporaryRedirect:
+			case LocationContextTransferStatusNoContent:
+				c.JSON(int(status), nil)
+			case LocationContextTransferStatusTemporaryRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
-			case fivegc.StatusPermanentRedirect:
+				c.JSON(int(status), redirectResponse)
+			case LocationContextTransferStatusPermanentRedirect:
 				header.BindRedirectHeader(c, redirectResponse.RedirectHeader)
-				c.JSON(status.ToInt(), redirectResponse)
+				c.JSON(int(status), redirectResponse)
 			default:
-				c.JSON(status.ToInt(), problemDetails)
+				c.JSON(int(status), problemDetails)
 			}
 			return
 		})
 	}
 }
 
-// LocationClient is a client for the Nlmf_location service.
+// LocationClient is a client for the NLMF Location service.
 type LocationClient struct {
-	client *openapinlmflocationclient.APIClient
+	client *nlmfocation.APIClient
 }
 
-// NewLocationClient creates a new client for the Nlmf_location service.
+// NewLocationClient creates a new client for the NLMF Location service.
 func NewLocationClient(cfg fivegc.ClientConfiguration) *LocationClient {
-	openapiCfg := &openapinlmflocationclient.Configuration{
+	openapiCfg := &nlmfocation.Configuration{
 		Host:             cfg.Host,
 		Scheme:           cfg.Scheme,
 		DefaultHeader:    cfg.DefaultHeader,
 		UserAgent:        cfg.UserAgent,
 		Debug:            cfg.Debug,
-		Servers:          []openapinlmflocationclient.ServerConfiguration{},
-		OperationServers: make(map[string]openapinlmflocationclient.ServerConfigurations),
+		Servers:          []nlmfocation.ServerConfiguration{},
+		OperationServers: make(map[string]nlmfocation.ServerConfigurations),
 		HTTPClient:       cfg.HTTPClient,
 	}
 	for _, server := range cfg.Servers {
-		openapiServer := openapinlmflocationclient.ServerConfiguration{
+		openapiServer := nlmfocation.ServerConfiguration{
 			URL:         server.URL,
 			Description: server.Description,
-			Variables:   make(map[string]openapinlmflocationclient.ServerVariable),
+			Variables:   make(map[string]nlmfocation.ServerVariable),
 		}
 		for name, variable := range server.Variables {
-			openapiServer.Variables[name] = openapinlmflocationclient.ServerVariable{
+			openapiServer.Variables[name] = nlmfocation.ServerVariable{
 				Description:  variable.Description,
 				DefaultValue: variable.DefaultValue,
 				EnumValues:   variable.EnumValues,
@@ -128,15 +162,15 @@ func NewLocationClient(cfg fivegc.ClientConfiguration) *LocationClient {
 		openapiCfg.Servers = append(openapiCfg.Servers, openapiServer)
 	}
 	for name, servers := range cfg.OperationServers {
-		openapiServers := make(openapinlmflocationclient.ServerConfigurations, len(servers))
+		openapiServers := make(nlmfocation.ServerConfigurations, len(servers))
 		for i, server := range servers {
-			openapiServers[i] = openapinlmflocationclient.ServerConfiguration{
+			openapiServers[i] = nlmfocation.ServerConfiguration{
 				URL:         server.URL,
 				Description: server.Description,
-				Variables:   make(map[string]openapinlmflocationclient.ServerVariable),
+				Variables:   make(map[string]nlmfocation.ServerVariable),
 			}
 			for name, variable := range server.Variables {
-				openapiServers[i].Variables[name] = openapinlmflocationclient.ServerVariable{
+				openapiServers[i].Variables[name] = nlmfocation.ServerVariable{
 					Description:  variable.Description,
 					DefaultValue: variable.DefaultValue,
 					EnumValues:   variable.EnumValues,
@@ -146,36 +180,36 @@ func NewLocationClient(cfg fivegc.ClientConfiguration) *LocationClient {
 		openapiCfg.OperationServers[name] = openapiServers
 	}
 	return &LocationClient{
-		client: openapinlmflocationclient.NewAPIClient(openapiCfg),
+		client: nlmfocation.NewAPIClient(openapiCfg),
 	}
 }
 
 // LocationContextTransfer returns location context transfer request
-func (l LocationClient) LocationContextTransfer(ctx context.Context) openapinlmflocationclient.ApiLocationContextTransferRequest {
+func (l LocationClient) LocationContextTransfer(ctx context.Context) nlmfocation.ApiLocationContextTransferRequest {
 	return l.client.LocationContextTransferApi.LocationContextTransfer(ctx)
 }
 
 // LocationContextTransferExecute executes the location context transfer request
-func (l LocationClient) LocationContextTransferExecute(r openapinlmflocationclient.ApiLocationContextTransferRequest) (*http.Response, error) {
+func (l LocationClient) LocationContextTransferExecute(r nlmfocation.ApiLocationContextTransferRequest) (*http.Response, error) {
 	return r.Execute()
 }
 
 // DetermineLocation returns determine location request
-func (l LocationClient) DetermineLocation(ctx context.Context) openapinlmflocationclient.ApiDetermineLocationRequest {
+func (l LocationClient) DetermineLocation(ctx context.Context) nlmfocation.ApiDetermineLocationRequest {
 	return l.client.DetermineLocationApi.DetermineLocation(ctx)
 }
 
 // DetermineLocationExecute executes the determine location request
-func (l LocationClient) DetermineLocationExecute(r openapinlmflocationclient.ApiDetermineLocationRequest) (*openapinlmflocationclient.LocationData, *http.Response, error) {
+func (l LocationClient) DetermineLocationExecute(r nlmfocation.ApiDetermineLocationRequest) (*nlmfocation.LocationData, *http.Response, error) {
 	return r.Execute()
 }
 
 // CancelLocation returns cancel location request
-func (l LocationClient) CancelLocation(ctx context.Context) openapinlmflocationclient.ApiCancelLocationRequest {
+func (l LocationClient) CancelLocation(ctx context.Context) nlmfocation.ApiCancelLocationRequest {
 	return l.client.CancelLocationApi.CancelLocation(ctx)
 }
 
 // CancelLocationExecute executes the cancel location request
-func (l LocationClient) CancelLocationExecute(r openapinlmflocationclient.ApiCancelLocationRequest) (*http.Response, error) {
+func (l LocationClient) CancelLocationExecute(r nlmfocation.ApiCancelLocationRequest) (*http.Response, error) {
 	return r.Execute()
 }
