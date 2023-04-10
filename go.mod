@@ -1,11 +1,11 @@
 module github.com/5GCoreNet/5GCoreNetSDK
 
-go 1.18
+go 1.20
 
 require (
-	github.com/5GCoreNet/client-openapi v0.0.0-20230128134546-a505b74025b3
-	github.com/5GCoreNet/server-openapi v0.0.0-20230126185629-9202d02e7eea
+	github.com/5GCoreNet/openapi v1.18.2
 	github.com/gin-gonic/gin v1.8.2
+	github.com/golang/mock v1.6.0
 )
 
 require (
@@ -23,10 +23,10 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 // indirect
-	golang.org/x/net v0.5.0 // indirect
-	golang.org/x/oauth2 v0.4.0 // indirect
-	golang.org/x/sys v0.4.0 // indirect
-	golang.org/x/text v0.6.0 // indirect
+	golang.org/x/net v0.9.0 // indirect
+	golang.org/x/oauth2 v0.7.0 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

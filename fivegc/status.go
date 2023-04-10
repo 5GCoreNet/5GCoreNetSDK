@@ -1,5 +1,7 @@
 package fivegc
 
+// Note that this file is a port of the file status.go from Go standard library.
+
 // StatusCode represents the status code of the HTTP response.
 type StatusCode uint16
 
